@@ -1,18 +1,34 @@
-<!doctype html>
-<html lang="en">
+<!-- api/spa/index.html -->
 
-<head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/static/api/spa/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ECS639 Web Programming - Group CW Template</title>
-  <script type="module" crossorigin src="/static/api/spa/assets/index-969bf769.js"></script>
-  <link rel="stylesheet" href="/static/api/spa/assets/index-4e5c0698.css">
-</head>
+<!-- Your existing Vue.js and HTML code -->
 
-<body>
-    <div id="app"></div>
-    
-</body>
+<script>
+  new Vue({
+      // Your existing Vue.js code
 
-</html>
+      methods: {
+          submitForm() {
+              fetch('/main_spa/', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': csrf_token,
+                  },
+                  body: JSON.stringify(this.form),
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.status === 'success') {
+                      alert('Profile updated successfully!');
+                  } else {
+                      alert('Error updating profile. Please check the form.');
+                      console.error(data.errors);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error updating profile:', error);
+              });
+          }
+      }
+  });
+</script>
